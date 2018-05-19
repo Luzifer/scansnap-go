@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"image"
 	"image/jpeg"
 	"io"
 	"net/http"
@@ -11,8 +12,14 @@ import (
 
 	"github.com/Luzifer/rconfig"
 	"github.com/Luzifer/sane"
+	"github.com/disintegration/imaging"
 	"github.com/jung-kurt/gofpdf"
 	log "github.com/sirupsen/logrus"
+)
+
+const (
+	scanDPI = 300
+	pdfDPI  = 150
 )
 
 var (
@@ -34,7 +41,7 @@ var (
 		"offtimer":    0,            // Don't turn off scanner
 		"page-height": 297.0,        // A4: 297mm
 		"page-width":  210.0,        // A4: 210mm
-		"resolution":  300,          // Scan with 300dpi for better results
+		"resolution":  scanDPI,      // Scan with 300dpi for better results
 		"source":      "ADF Duplex", // Duplex scan: Both pages at once
 		"swdespeck":   2,            // Remove black spots
 		"swskip":      10.0,         // If a page is >=10% empty discard it
@@ -131,7 +138,7 @@ func generatePDFFromPages(pages []*sane.Image) (io.Reader, error) {
 	for i, p := range pages {
 		pdf.AddPage()
 		img := new(bytes.Buffer)
-		if err := jpeg.Encode(img, p, &jpeg.Options{Quality: 95}); err != nil {
+		if err := jpeg.Encode(img, reducePageDPI(p), &jpeg.Options{Quality: 95}); err != nil {
 			return nil, fmt.Errorf("Unable to encode page %d: %s", i, err)
 		}
 		imgOpts := gofpdf.ImageOptions{
@@ -148,4 +155,10 @@ func generatePDFFromPages(pages []*sane.Image) (io.Reader, error) {
 	}
 
 	return pdfBuf, nil
+}
+
+func reducePageDPI(in image.Image) image.Image {
+	origW, origH := in.Bounds().Max.X, in.Bounds().Max.Y
+
+	return imaging.Fit(in, origW/(scanDPI/pdfDPI), origH/(scanDPI/pdfDPI), imaging.Lanczos)
 }

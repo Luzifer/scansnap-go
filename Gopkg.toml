@@ -26,12 +26,24 @@
 
 
 [[constraint]]
-  name = "github.com/sirupsen/logrus"
-  version = "1.0.5"
+  name = "github.com/Luzifer/rconfig"
+  version = "1.2.0"
 
 [[constraint]]
   branch = "master"
   name = "github.com/Luzifer/sane"
+
+[[constraint]]
+  name = "github.com/disintegration/imaging"
+  version = "1.4.2"
+
+[[constraint]]
+  name = "github.com/jung-kurt/gofpdf"
+  version = "1.0.0"
+
+[[constraint]]
+  name = "github.com/sirupsen/logrus"
+  version = "1.0.5"
 
 [prune]
   go-tests = true

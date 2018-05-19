@@ -14,6 +14,12 @@
   revision = "a5b09af9ae8ca81a03c605b12a425dfd753fde19"
 
 [[projects]]
+  name = "github.com/disintegration/imaging"
+  packages = ["."]
+  revision = "bbcee2f5c9d5e94ca42c8b50ec847fec64a6c134"
+  version = "v1.4.2"
+
+[[projects]]
   name = "github.com/jung-kurt/gofpdf"
   packages = ["."]
   revision = "14c1db30737a138f8d9797cffea58783892b2fae"
@@ -39,6 +45,16 @@
 
 [[projects]]
   branch = "master"
+  name = "golang.org/x/image"
+  packages = [
+    "bmp",
+    "tiff",
+    "tiff/lzw"
+  ]
+  revision = "f315e440302883054d0c2bd85486878cb4f8572c"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/sys"
   packages = [
     "unix",
@@ -61,6 +77,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "c793d83849d7d739487688abbbb13f406cfb2f4a4c0ee89d538caf64f3b5b5ad"
+  inputs-digest = "5c2900afeed65d3f8b50c86ce5d2fc934cf334e115b4265afd49ef49991d4f84"
   solver-name = "gps-cdcl"
   solver-version = 1
